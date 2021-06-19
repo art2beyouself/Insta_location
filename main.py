@@ -11,16 +11,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import time, random
-import tkinter
-from PIL import Image
 
-master = tkinter.Tk()
-
-class Remove_Button_Widget():
-    def __init__(self, var1):
-        variable_to_pass = var1
-        self.Remove_Button = tkinter.Button(master, text="Удалить метку", height=2, width=12, command=lambda :remove_button().remove_functionality(variable_to_pass))
-        self.Remove_Button.place(x=362,y=350)
 
 def search_by_hashtag(hashtag):
     global browser
@@ -67,12 +58,6 @@ def search_by_hashtag(hashtag):
             tatras.resize((400, 350), Image.ANTIALIAS)
             tatras.save(photos)
 
-    master.title("Instagram Map")
-    master.geometry("500x500")
-    master.resizable(width=False, height=False)
-    Robot_Files_Found_Widgets()
-    master.mainloop()
-
     with open("savefile.txt", "r") as savefile:
         content = savefile.readlines()
 
@@ -108,69 +93,6 @@ def search_by_hashtag(hashtag):
     current = os.path.abspath(os.curdir)
     browser.get(current + '/map.html')
     time.sleep(999999)
-
-
-class Robot_Files_Found_Widgets():
-    def __init__(self):
-        self.Robot_Files_Ran_Frame = tkinter.Frame(master)
-        self.Robot_Files_Ran_Frame.place(bordermode = tkinter.INSIDE, height=30, width=200, y=250, x=35)
-        self.Display_Robot_Files_Frame = tkinter.Frame(master, borderwidth=1, highlightthickness=1,
-                                              highlightbackground="black", highlightcolor="black")
-        self.Display_Robot_Files_Frame.place(bordermode = tkinter.INSIDE, height=200, width=300, y=285, x=50)
-        self.ROBOT_FILE_LIST = tkinter.Listbox(self.Display_Robot_Files_Frame,selectmode = tkinter.MULTIPLE)
-        self.ROBOT_FILE_LIST.place(bordermode = tkinter.INSIDE, height=196, width=296)
-
-        self.Scroll_Bar_x = tkinter.Scrollbar(self.ROBOT_FILE_LIST, orient = tkinter.HORIZONTAL)
-        self.Scroll_Bar_x.config(command=self.ROBOT_FILE_LIST.xview)
-        self.Scroll_Bar_x.pack(fill = tkinter.X, side = tkinter.BOTTOM)
-        self.ROBOT_FILE_LIST.config(xscrollcommand=self.Scroll_Bar_x.set)
-        self.Scroll_Bar_y = tkinter.Scrollbar(self.ROBOT_FILE_LIST, orient = tkinter.VERTICAL)
-        self.Scroll_Bar_y.config(command=self.ROBOT_FILE_LIST.yview)
-        self.Scroll_Bar_y.pack(fill = tkinter.Y, side = tkinter.RIGHT)
-        self.ROBOT_FILE_LIST.config(yscrollcommand=self.Scroll_Bar_y.set)
-        some_list = []
-        for x in metki:
-            some_list.append(x)
-        for y in some_list:
-            self.ROBOT_FILE_LIST.insert(0, y)
-        Remove_Button_Widget(self.ROBOT_FILE_LIST)
-        Go_Button_Widget(self.ROBOT_FILE_LIST)
-        View_Button_Widget(self.ROBOT_FILE_LIST)
-
-class Go_Button_Widget():
-    def __init__(self, var3):
-        variableq = var3
-        self.Go_Button = tkinter.Button(master, text="Посмотреть метку", height=2, width=14, command=lambda :view_button().view_functionality(variableq))
-        self.Go_Button.place(x=362,y=300)
-
-
-class View_Button_Widget():
-    def __init__(self, var2):
-        variable = var2
-        self.Go_Button = tkinter.Button(master, text="Показать карту", height=2, width=12, command=lambda :go_button().go_functionality(variable))
-        self.Go_Button.place(x=362,y=400)
-
-
-class view_button():
-    def view_functionality(self, ROBOT_FILE_LIST):
-        for i in ROBOT_FILE_LIST.curselection():
-            webbrowser.open(ROBOT_FILE_LIST.get(i))
-
-class remove_button():
-    def remove_functionality(self, ROBOT_FILE_LIST):
-        sel = ROBOT_FILE_LIST.curselection()
-        for index in reversed(sel):
-            ROBOT_FILE_LIST.delete(index)
-
-
-class go_button():
-    def go_functionality(self, ROBOT_FILE_LIST):
-        lb = ROBOT_FILE_LIST
-        iscontain = list(lb.get(0, tkinter.END))
-        with open("savefile.txt", "w") as savefile:
-            for i in iscontain:
-                savefile.write(f'{i}\n')
-        master.destroy()
 
 def login_firefox_chrome(_browser, login, password):
     global browser
